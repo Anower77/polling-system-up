@@ -12,6 +12,7 @@
         }
     ],
     "env": {
-        "DJANGO_SETTINGS_MODULE": "polling.settings"
+        "DJANGO_SETTINGS_MODULE": "polling.settings",
+        "DATABASE_URL": "postgresql://postgres.eqnqafysfyakifcrbbhw:anower77@db.eqnqafysfyakifcrbbhw.supabase.co:5432/postgres"
     }
 } 

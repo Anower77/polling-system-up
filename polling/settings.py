@@ -84,12 +84,30 @@ ASGI_APPLICATION = 'polling.asgi.application'
 
 # Database
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.eqnqafysfyakifcrbbhw',
+        'PASSWORD': 'anower77',
+        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
+        'PORT': '6543',
+    }
+}
+
+# For production, use DATABASE_URL
+if not DEBUG:
+    DATABASES['default'] = dj_database_url.config(
+        default=env('DATABASE_URL'),
         conn_max_age=600,
         conn_health_checks=True,
+        ssl_require=True
     )
-}
+
+# Add this to your database settings
+if not DEBUG:
+    DATABASES['default']['OPTIONS'] = {
+        'sslmode': 'require'
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
