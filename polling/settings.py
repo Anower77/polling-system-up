@@ -19,7 +19,7 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-development-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh', 'localhost', '127.0.0.1', "polling-system-up.onrender.com"]
 
 # Application definition
 INSTALLED_APPS = [
