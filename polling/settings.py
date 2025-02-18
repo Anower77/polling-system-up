@@ -91,6 +91,9 @@ DATABASES = {
         'PASSWORD': 'anower77',
         'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',
         'PORT': '6543',
+        'OPTIONS': {
+            'sslmode': 'require'
+        }
     }
 }
 
@@ -102,12 +105,6 @@ if not DEBUG:
         conn_health_checks=True,
         ssl_require=True
     )
-
-# Add this to your database settings
-if not DEBUG:
-    DATABASES['default']['OPTIONS'] = {
-        'sslmode': 'require'
-    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
