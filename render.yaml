@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: polling-system
+    env: python
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    startCommand: gunicorn polling.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DATABASE_URL
+        value: postgresql://postgres.eqnqafysfyakifcrbbhw:anower77@db.eqnqafysfyakifcrbbhw.supabase.co:5432/postgres
+      - key: SECRET_KEY
+        value: django-insecure-0k3$u4-9v#$+r2=x_k%6pj^qr*=w@$y2n#@&x6_&0@q!_a#$%^
+      - key: DEBUG
+        value: "False"
+      - key: ALLOWED_HOSTS
+        value: ".onrender.com" 
