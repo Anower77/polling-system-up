@@ -85,7 +85,7 @@ ASGI_APPLICATION = 'polling.asgi.application'
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': env('DATABASE_URL'),
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
@@ -202,27 +202,12 @@ else:
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
 
-# # Stripe Settings
-# STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY', default='')
-# STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='')
-# STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='')
-
-# For development, you can use these test values if env variables are not set
-if DEBUG and not all([STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET]):
-    STRIPE_PUBLISHABLE_KEY = 'pk_test_51BTUDGJAJfZb9HEBwYrzFYyYyKg6'  # Replace with test key
-    STRIPE_SECRET_KEY = 'sk_test_51BTUDGJAJfZb9HEBmHhkq'  # Replace with test key
-    STRIPE_WEBHOOK_SECRET = 'whsec_test_51BTUDGJAJfZb9HEB'  # Replace with test key
-    
-    import warnings
-    warnings.warn(
-        'Using test Stripe keys. For production, set proper keys in .env file',
-        RuntimeWarning
-    )
-
-STRIPE_PRICE_IDS = {
-    'business': 'price_H5ggYwtDq9fGWh',  # Replace with your actual price IDs
-    'enterprise': 'price_H5ggYwtDq9fGWi',
-}
+# Remove all Stripe-related settings since we're not using them
+# Instead of removing, let's set them to None
+STRIPE_PUBLISHABLE_KEY = None
+STRIPE_SECRET_KEY = None
+STRIPE_WEBHOOK_SECRET = None
+STRIPE_PRICE_IDS = {}
 
 # SSL Commerz Settings
 SSLC_STORE_ID = 'polli67b4731a3b8b2'
