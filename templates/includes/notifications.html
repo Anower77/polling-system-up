@@ -1,0 +1,127 @@
+<div class="toast-container">
+    {% for message in messages %}
+    <div class="toast {{ message.tags }}" role="alert">
+        <div class="toast-header">
+            <i class="fas {% if message.tags == 'success' %}fa-check-circle{% else %}fa-exclamation-circle{% endif %} me-2"></i>
+            <strong class="me-auto">{{ message.tags|title }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            {{ message }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1050;
+}
+
+.toast {
+    min-width: 300px;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    opacity: 1;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast.success {
+    border-left: 4px solid #00b894;
+}
+
+.toast.error {
+    border-left: 4px solid #d63031;
+}
+
+.toast.warning {
+    border-left: 4px solid #fdcb6e;
+}
+
+.toast.info {
+    border-left: 4px solid #0984e3;
+}
+
+.toast-header {
+    background: transparent;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding: 12px 15px;
+}
+
+.toast-header i {
+    font-size: 18px;
+}
+
+.toast.success i {
+    color: #00b894;
+}
+
+.toast.error i {
+    color: #d63031;
+}
+
+.toast.warning i {
+    color: #fdcb6e;
+}
+
+.toast.info i {
+    color: #0984e3;
+}
+
+.toast-body {
+    padding: 12px 15px;
+    color: #2d3436;
+}
+
+.btn-close {
+    font-size: 12px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.toast.hiding {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toasts = document.querySelectorAll('.toast');
+    
+    toasts.forEach(toast => {
+        // Show toast
+        new bootstrap.Toast(toast, {
+            autohide: true,
+            delay: 5000
+        }).show();
+
+        // Add animation when hiding
+        toast.addEventListener('hide.bs.toast', function() {
+            this.classList.add('hiding');
+        });
+    });
+});
+</script> 

@@ -1,0 +1,17 @@
+{
+    "builds": [
+        {
+            "src": "polling/wsgi.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "polling/wsgi.py"
+        }
+    ],
+    "env": {
+        "DJANGO_SETTINGS_MODULE": "polling.settings"
+    }
+} 

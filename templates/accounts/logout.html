@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2 class="mb-4">You have been logged out</h2>
+                <p class="lead">Thanks for using Modern Polling!</p>
+                <div class="mt-4">
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login Again</a>
+                    <a href="{% url 'home' %}" class="btn btn-outline-primary ms-2">Go Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

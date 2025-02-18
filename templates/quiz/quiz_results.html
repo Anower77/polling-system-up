@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="results-container">
+    <div class="results-header">
+        <h2>{{ quiz.title }} - Results</h2>
+        <div class="score-info">
+            <div class="score">Your Score: {{ attempt.score|floatformat:1 }}%</div>
+            <div class="time-taken">Time Taken: {{ attempt.time_taken|floatformat:1 }} minutes</div>
+            <div class="pass-status {% if attempt.score >= quiz.passing_score %}passed{% else %}failed{% endif %}">
+                {% if attempt.score >= quiz.passing_score %}
+                    Passed
+                {% else %}
+                    Failed
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="answers-review">
+        {% for answer in answers %}
+        <div class="answer-card {% if answer.is_correct %}correct{% else %}incorrect{% endif %}">
+            <h3 class="question-text">{{ answer.question.text }}</h3>
+            <div class="your-answer">
+                Your Answer: {{ answer.selected_choice.text }}
+                {% if answer.is_correct %}
+                    <i class="fas fa-check-circle"></i>
+                {% else %}
+                    <i class="fas fa-times-circle"></i>
+                {% endif %}
+            </div>
+            {% if not answer.is_correct %}
+            <div class="correct-answer">
+                Correct Answer: 
+                {{ answer.question.choices.filter.is_correct.first.text }}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="action-buttons">
+        <a href="{% url 'quiz:list' %}" class="btn btn-primary">Back to Quizzes</a>
+    </div>
+</div>
+
+<style>
+    .results-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .results-header {
+        background: #1a1a1a;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .score-info {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        color: #888;
+    }
+
+    .score {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .pass-status {
+        padding: 5px 15px;
+        border-radius: 20px;
+    }
+
+    .pass-status.passed {
+        background: #00b894;
+        color: white;
+    }
+
+    .pass-status.failed {
+        background: #d63031;
+        color: white;
+    }
+
+    .answer-card {
+        background: #1a1a1a;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    .answer-card.correct {
+        border-left: 4px solid #00b894;
+    }
+
+    .answer-card.incorrect {
+        border-left: 4px solid #d63031;
+    }
+</style>
+{% endblock %} 

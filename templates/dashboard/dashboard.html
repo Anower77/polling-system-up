@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="dashboard-header">
+        <div class="user-profile">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="profile-info">
+                    <h2>Welcome, {{ user.username }}</h2>
+                    <p class="user-email">{{ user.email }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-grid">
+        <div class="stat-box">
+            <i class="fas fa-poll"></i>
+            <div class="stat-details">
+                <span class="stat-number">{{ user_polls_count }}</span>
+                <span class="stat-label">My Polls</span>
+            </div>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-question-circle"></i>
+            <div class="stat-details">
+                <span class="stat-number">{{ user_quizzes_count }}</span>
+                <span class="stat-label">My Quizzes</span>
+            </div>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-vote-yea"></i>
+            <div class="stat-details">
+                <span class="stat-number">{{ user_votes_count }}</span>
+                <span class="stat-label">My Votes</span>
+            </div>
+        </div>
+        <div class="stat-box">
+            <i class="fas fa-trophy"></i>
+            <div class="stat-details">
+                <span class="stat-number">{{ quiz_score_avg|floatformat:1 }}%</span>
+                <span class="stat-label">Avg. Score</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="{% url 'polls:add' %}" class="action-btn">
+            <i class="fas fa-plus"></i>
+            <span>New Poll</span>
+        </a>
+        <a href="{% url 'quiz:add' %}" class="action-btn">
+            <i class="fas fa-plus"></i>
+            <span>New Quiz</span>
+        </a>
+        <a href="{% url 'polls:list_by_user' %}" class="action-btn">
+            <i class="fas fa-list"></i>
+            <span>My Polls</span>
+        </a>
+        <a href="#" class="action-btn">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="activity-section">
+        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+        <div class="activity-grid">
+            <!-- Recent Polls -->
+            <div class="activity-card">
+                <h4>Recent Polls</h4>
+                <div class="activity-list">
+                    {% for poll in recent_polls %}
+                    <div class="activity-item">
+                        <i class="fas fa-poll"></i>
+                        <div class="activity-details">
+                            <span class="activity-title">{{ poll.text }}</span>
+                            <span class="activity-date">{{ poll.pub_date|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="no-activity">No recent polls</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Recent Quizzes -->
+            <div class="activity-card">
+                <h4>Recent Quizzes</h4>
+                <div class="activity-list">
+                    {% for quiz in recent_quizzes %}
+                    <div class="activity-item">
+                        <i class="fas fa-question-circle"></i>
+                        <div class="activity-details">
+                            <span class="activity-title">{{ quiz.title }}</span>
+                            <span class="activity-date">{{ quiz.created_at|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="no-activity">No recent quizzes</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Recent Attempts -->
+            <div class="activity-card">
+                <h4>Recent Quiz Attempts</h4>
+                <div class="activity-list">
+                    {% for attempt in recent_attempts %}
+                    <div class="activity-item">
+                        <i class="fas fa-trophy"></i>
+                        <div class="activity-details">
+                            <span class="activity-title">{{ attempt.quiz.title }}</span>
+                            <span class="activity-score">Score: {{ attempt.score }}%</span>
+                            <span class="activity-date">{{ attempt.completed_at|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="no-activity">No recent attempts</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Add your existing dashboard styles plus these new ones */
+    .activity-section {
+        margin-top: 40px;
+    }
+
+    .activity-section h3 {
+        color: #fff;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .activity-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .activity-card {
+        background: #1a1a1a;
+        border-radius: 15px;
+        padding: 20px;
+    }
+
+    .activity-card h4 {
+        color: #fff;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+    }
+
+    .activity-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .activity-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+        border-radius: 10px;
+        background: #2d3436;
+        transition: transform 0.3s ease;
+    }
+
+    .activity-item:hover {
+        transform: translateX(5px);
+        background: #363b3d;
+    }
+
+    .activity-item i {
+        color: #6c5ce7;
+        font-size: 20px;
+    }
+
+    .activity-details {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .activity-title {
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .activity-date, .activity-score {
+        color: #888;
+        font-size: 0.9rem;
+    }
+
+    .no-activity {
+        color: #666;
+        text-align: center;
+        padding: 20px;
+    }
+</style>
+{% endblock %} 

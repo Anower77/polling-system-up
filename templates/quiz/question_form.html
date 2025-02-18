@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">{{ title }}</h2>
+                    <h5 class="text-muted mb-4">Quiz: {{ quiz.title }}</h5>
+
+                    <form method="post" class="question-form">
+                        {% csrf_token %}
+                        
+                        <div class="question-section mb-4">
+                            {{ form|crispy }}
+                        </div>
+
+                        <div class="choices-section">
+                            <h4 class="mb-3">Choices</h4>
+                            {{ formset.management_form }}
+                            {% for choice_form in formset %}
+                            <div class="choice-form mb-3">
+                                {{ choice_form|crispy }}
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Question
+                            </button>
+                            <a href="{% url 'quiz:edit' quiz.id %}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ... (use same styles as quiz_form.html) ... */
+</style>
+{% endblock %} 

@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Edit Poll</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        
+        <div id="choices-container">
+            <h4>Choices</h4>
+            {{ choice_formset.management_form }}
+            {% for choice_form in choice_formset %}
+                <div class="choice-form mb-3">
+                    {{ choice_form|crispy }}
+                    {% if not forloop.first %}
+                        <button type="button" class="btn btn-danger btn-sm remove-choice">Remove Choice</button>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <button type="button" class="btn btn-secondary mb-3" id="add-choice">Add Another Choice</button>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Update Poll</button>
+            <a href="{% url 'polls:list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const choicesContainer = document.getElementById('choices-container');
+    const addChoiceBtn = document.getElementById('add-choice');
+    let totalForms = document.querySelector('#id_choice_set-TOTAL_FORMS');
+    
+    addChoiceBtn.addEventListener('click', function() {
+        const formCount = parseInt(totalForms.value);
+        const newForm = choicesContainer.querySelector('.choice-form').cloneNode(true);
+        
+        // Update form index
+        newForm.innerHTML = newForm.innerHTML.replace(/-\d+-/g, `-${formCount}-`);
+        
+        // Clear input values
+        newForm.querySelectorAll('input').forEach(input => input.value = '');
+        
+        // Add remove button
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn btn-danger btn-sm remove-choice';
+        removeBtn.textContent = 'Remove Choice';
+        newForm.appendChild(removeBtn);
+        
+        choicesContainer.appendChild(newForm);
+        totalForms.value = formCount + 1;
+    });
+    
+    // Handle remove choice button
+    choicesContainer.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-choice')) {
+            e.target.closest('.choice-form').remove();
+            totalForms.value = parseInt(totalForms.value) - 1;
+        }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

@@ -1,0 +1,6 @@
+<!-- Add this to your activity-actions div -->
+{% if user == quiz.creator %}
+    <a href="{% url 'quiz:delete' quiz.id %}" class="btn btn-danger btn-sm">
+        <i class="fas fa-trash"></i> Delete
+    </a>
+{% endif %} 

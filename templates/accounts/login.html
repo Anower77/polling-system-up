@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="auth-form">
+        <h2>Login</h2>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                {{ form.password }}
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        
+        <div class="auth-links">
+            <p>Don't have an account? <a href="{% url 'accounts:register' %}">Register here</a></p>
+            <p><a href="{% url 'accounts:password_reset' %}">Forgot your password?</a></p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .auth-form {
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #2d3436;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .auth-form h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #fff;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #fff;
+    }
+
+    .auth-links {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .auth-links a {
+        color: #6c5ce7;
+        text-decoration: none;
+    }
+
+    .auth-links a:hover {
+        text-decoration: underline;
+    }
+
+    .messages {
+        margin-bottom: 20px;
+    }
+
+    .alert {
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .alert-error {
+        background: #ff7675;
+        color: #fff;
+    }
+
+    .alert-success {
+        background: #00b894;
+        color: #fff;
+    }
+</style>
+{% endblock %} 

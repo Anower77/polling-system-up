@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="checkout-container">
+        <h2>Complete Your Purchase</h2>
+        <div class="plan-summary">
+            <h3>{{ plan|title }} Plan</h3>
+            <div class="plan-details">
+                <p class="price">
+                    {% if plan == 'business' %}
+                    ৳1250 <span>/month</span>
+                    {% elif plan == 'enterprise' %}
+                    Custom Pricing
+                    {% else %}
+                    Free
+                    {% endif %}
+                </p>
+                <ul class="features">
+                    {% if plan == 'business' %}
+                    <li>Unlimited Creators</li>
+                    <li>Unlimited videos</li>
+                    <li>Custom branding</li>
+                    <li>Advanced analytics</li>
+                    {% elif plan == 'enterprise' %}
+                    <li>SSO Integration</li>
+                    <li>Custom retention policies</li>
+                    <li>Advanced security</li>
+                    <li>Priority support</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <a href="{% url 'payment:initiate' plan %}" class="btn btn-primary btn-pay">
+                Proceed to Payment
+            </a>
+            <a href="{% url 'payment:pricing' %}" class="btn btn-outline-secondary">
+                Back to Plans
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.checkout-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.plan-summary {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.price {
+    font-size: 2rem;
+    color: #6c5ce7;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.price span {
+    font-size: 1rem;
+    color: #666;
+}
+
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.features li {
+    margin: 10px 0;
+    color: #444;
+}
+
+.payment-section {
+    text-align: center;
+}
+
+.btn-pay {
+    background: #6c5ce7;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: inline-block;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.btn-pay:hover {
+    background: #5b4bc4;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108,92,231,0.4);
+}
+
+.btn-outline-secondary {
+    color: #666;
+    text-decoration: none;
+    display: block;
+}
+
+.btn-outline-secondary:hover {
+    color: #444;
+}
+</style>
+{% endblock %} 

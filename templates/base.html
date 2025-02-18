@@ -1,0 +1,984 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>{% block title %}Polling App{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Update the root variables for dark theme */
+        :root {
+            --primary-color: #1a1a1a;
+            --primary-dark: #141414;
+            --primary-light: #2a2a2a;
+            --text-light: #e0e0e0;
+            --text-muted: #888888;
+            --bg-transparent: rgba(26, 26, 26, 0.98);
+            --border-color: #333333;
+            --accent-color: #4f46e5;
+            --accent-hover: #4338ca;
+            --danger-color: #dc2626;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --card-bg: #242424;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+        }
+
+        /* Modern Navbar */
+        .navbar {
+            background: var(--card-bg) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand, .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+
+        /* Card Styling */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            color: var(--text-light);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            background: var(--card-bg);
+        }
+
+        /* Button Styling */
+        .btn-primary {
+            background: var(--accent-color);
+            border: none;
+            color: white !important;
+            padding: 0.8rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            color: white !important;
+        }
+
+        /* Alert Styling */
+        .alert {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent-color);
+            color: var(--text-light);
+        }
+
+        .alert-success {
+            border-left-color: var(--success-color);
+        }
+
+        .alert-danger {
+            border-left-color: var(--danger-color);
+        }
+
+        .alert-warning {
+            border-left-color: var(--warning-color);
+        }
+
+        /* Form Styling */
+        .form-control {
+            background: var(--primary-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            padding: 0.8rem;
+        }
+
+        .form-control:focus {
+            background: var(--primary-color);
+            color: var(--text-light);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* List Group Styling */
+        .list-group-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem !important;
+        }
+
+        /* Custom Additions */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-light);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        /* Search Bar Styling */
+        .search-form {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .search-form .form-control {
+            padding-right: 3rem;
+            border-radius: 2rem;
+            background: var(--primary-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .search-form .btn {
+            position: absolute;
+            right: 0;
+            top: 0;
+            border-radius: 0 2rem 2rem 0;
+            padding: 0.8rem 1.5rem;
+        }
+
+        /* Additional Shadows */
+        .navbar, .card, .form-control, .btn {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* Social Share Buttons */
+        .share-buttons .btn {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .share-buttons .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .share-buttons .btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Custom colors for social buttons */
+        .btn-facebook {
+            background-color: #1877f2;
+            border-color: #1877f2;
+        }
+
+        .btn-twitter {
+            background-color: #000000;
+            border-color: #000000;
+        }
+
+        .btn-linkedin {
+            background-color: #0a66c2;
+            border-color: #0a66c2;
+        }
+
+        .btn-whatsapp {
+            background-color: #25d366;
+            border-color: #25d366;
+        }
+
+        /* Add these to your existing styles */
+        .feature-icon {
+            color: var(--text-light);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .display-4 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+
+        /* Statistics cards specific styling */
+        .statistics-card {
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .statistics-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Add this to your existing styles */
+        .circle-progress {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: var(--primary-light);
+        }
+
+        .circle-progress-fill {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .progress-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        @keyframes progress {
+            0% { stroke-dasharray: 0 100; }
+        }
+
+        .circle-progress svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotate(-90deg);
+        }
+
+        .circle-progress circle {
+            fill: none;
+            stroke-width: 10;
+            stroke-linecap: round;
+        }
+
+        .circle-progress .bg {
+            stroke: var(--primary-light);
+        }
+
+        .circle-progress .progress {
+            stroke: var(--accent-color);
+            animation: progress 1s ease-out forwards;
+        }
+
+        /* Add these to your existing styles */
+        .card-title {
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .card-title:hover {
+            color: var(--accent-color);
+        }
+
+        .gap-3 {
+            gap: 1rem !important;
+        }
+
+        .gap-4 {
+            gap: 1.5rem !important;
+        }
+
+        /* Icon styling */
+        .text-muted i {
+            margin-right: 0.5rem;
+        }
+
+        /* Button group styling */
+        .btn-group .btn {
+            margin: 0 2px;
+        }
+
+        .btn-outline-primary {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: transparent;
+        }
+
+        .btn-outline-primary:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+
+        /* Pagination updates */
+        .page-link {
+            color: var(--accent-color);
+            background-color: var(--bg-transparent);
+            border-color: var(--border-color);
+        }
+
+        .page-link:hover {
+            color: var(--accent-hover);
+            background-color: var(--primary-light);
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* Action buttons */
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-outline-danger {
+            color: var(--danger-color);
+            border-color: var(--danger-color);
+            background: transparent;
+        }
+
+        .btn-outline-danger:hover {
+            background: var(--danger-color);
+            border-color: var(--danger-color);
+            color: white;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-light);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        /* Navbar button color fix */
+        .navbar-toggler {
+            background-color: var(--accent-color);
+            border: none;
+        }
+
+        /* Close button fix */
+        .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* Form improvements */
+        .input-group-text {
+            background-color: var(--primary-light);
+            border-color: var(--border-color);
+            color: var(--text-light);
+        }
+
+        .form-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .form-text {
+            color: var(--text-muted) !important;
+        }
+
+        /* Form validation */
+        .is-invalid {
+            border-color: var(--danger-color) !important;
+        }
+
+        .invalid-feedback {
+            color: var(--danger-color);
+        }
+
+        /* Links in forms */
+        .card a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* Input focus state */
+        .form-control:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+        }
+
+        /* Input group focus state */
+        .input-group:focus-within .input-group-text {
+            border-color: var(--accent-color);
+        }
+
+        /* Button icon spacing */
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Card padding for forms */
+        .card-body.p-4 {
+            padding: 2rem !important;
+        }
+
+        /* Add these to your existing styles */
+        .asteriskField {
+            display: none;  /* Hide the required field asterisk */
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        /* Crispy form specific styling */
+        .invalid-feedback {
+            display: block;
+            color: var(--danger-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .is-invalid .form-control {
+            border-color: var(--danger-color);
+        }
+
+        .input-group > .form-control {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        /* Danger button */
+        .btn-danger {
+            background: var(--danger-color);
+            border-color: var(--danger-color);
+            color: white !important;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-color);
+            opacity: 0.9;
+            color: white !important;
+        }
+
+        /* Success button */
+        .btn-success {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            color: white !important;
+        }
+
+        .btn-success:hover {
+            background: var(--success-color);
+            opacity: 0.9;
+            color: white !important;
+        }
+
+        /* Warning button */
+        .btn-warning {
+            background: var(--warning-color);
+            border-color: var(--warning-color);
+            color: white !important;
+        }
+
+        .btn-warning:hover {
+            background: var(--warning-color);
+            opacity: 0.9;
+            color: white !important;
+        }
+
+        /* Secondary button */
+        .btn-secondary {
+            background: var(--text-muted);
+            border-color: var(--text-muted);
+            color: white !important;
+        }
+
+        .btn-secondary:hover {
+            background: var(--text-muted);
+            opacity: 0.9;
+            color: white !important;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: #fff;
+            padding: 60px 0 0;
+            margin-top: 60px;
+            border-top: 1px solid #2d3436;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section {
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            color: #6c5ce7;
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-section h3 i {
+            font-size: 24px;
+        }
+
+        .footer-section p {
+            color: #888;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: #2d3436;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .social-link:hover {
+            background: #6c5ce7;
+            transform: translateY(-3px);
+            color: #fff;
+        }
+
+        .footer-links-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links-list li {
+            margin-bottom: 15px;
+        }
+
+        .footer-links-list a {
+            color: #888;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links-list a:hover {
+            color: #6c5ce7;
+            transform: translateX(5px);
+        }
+
+        .contact-info {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .contact-info i {
+            color: #6c5ce7;
+            font-size: 18px;
+            margin-top: 3px;
+        }
+
+        .footer-bottom {
+            background: #141414;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+
+        .footer-bottom-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .copyright {
+            color: #666;
+        }
+
+        .copyright p {
+            margin: 0;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-bottom-links a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom-links a:hover {
+            color: #6c5ce7;
+        }
+
+        @media (max-width: 768px) {
+            .footer {
+                padding: 40px 0 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .footer-section {
+                margin-bottom: 0;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-bottom-links {
+                justify-content: center;
+            }
+        }
+
+        /* Add these styles to your existing CSS */
+        .navbar {
+            padding: 1rem 2rem;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-nav .nav-link {
+            color: #2d3436;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #6c5ce7;
+        }
+
+        .navbar-nav .nav-link.active {
+            color: #6c5ce7;
+        }
+
+        .navbar-nav .btn-primary {
+            background-color: #6c5ce7;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-nav .btn-primary:hover {
+            background-color: #5b4bc4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108,92,231,0.3);
+        }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 0.5rem;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f1f7;
+            color: #6c5ce7;
+        }
+
+        .dropdown-item i {
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <i class="fas fa-poll"></i> Polling System
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" 
+                           href="{% url 'home' %}">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'polls' in request.path %}active{% endif %}" 
+                           href="{% url 'polls:list' %}">
+                            <i class="fas fa-poll-h"></i> Polls
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'quiz' in request.path %}active{% endif %}" 
+                           href="{% url 'quiz:list' %}">
+                            <i class="fas fa-question-circle"></i> Quizzes
+                        </a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'pricing' %}active{% endif %}" 
+                           href="{% url 'payment:pricing' %}">
+                            <i class="fas fa-tags"></i> Pricing
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'polls:add' %}">
+                                <i class="fas fa-poll"></i> Create Poll
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'quiz:add' %}">
+                                <i class="fas fa-question-circle"></i> Create Quiz
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user"></i> {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:profile' %}">
+                                        <i class="fas fa-user-circle"></i> Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'accounts:logout' %}">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'accounts:login' %}">
+                                <i class="fas fa-sign-in-alt"></i> Sign In
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-primary ms-2" href="{% url 'accounts:register' %}">
+                                <i class="fas fa-user-plus"></i> Get Started
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    {% include 'includes/notifications.html' %}
+    
+    <main>
+        {% if messages %}
+            {% include 'includes/messages.html' %}
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3><i class="fas fa-poll"></i> Polling System</h3>
+                <p>A comprehensive platform for creating and managing polls and quizzes. Engage your audience with interactive surveys and assessments.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Quick Links</h3>
+                <ul class="footer-links-list">
+                    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'polls:list' %}"><i class="fas fa-poll-h"></i> Polls</a></li>
+                        <li><a href="{% url 'quiz:list' %}"><i class="fas fa-question-circle"></i> Quizzes</a></li>
+                        <li><a href="{% url 'polls:list_by_user' %}"><i class="fas fa-user-circle"></i> My Polls</a></li>
+                    {% else %}
+                        <li><a href="{% url 'accounts:login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                        <li><a href="{% url 'accounts:register' %}"><i class="fas fa-user-plus"></i> Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3><i class="fas fa-envelope"></i> Contact Us</h3>
+                <ul class="contact-info">
+                    <li>
+                        <i class="fas fa-envelope"></i>
+                        <span>support@pollingsystem.com</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-phone"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Polling Street<br>Survey City, SC 12345</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <div class="copyright">
+                    <p>&copy; {% now "Y" %} Polling System. All rights reserved.</p>
+                </div>
+                <div class="footer-bottom-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add CSRF token to all AJAX requests
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        // Add CSRF token to all AJAX requests
+        document.addEventListener('DOMContentLoaded', function() {
+            const xhr = new XMLHttpRequest();
+            xhr.addEventListener('load', function() {
+                // Set up CSRF token for AJAX requests
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                if (token) {
+                    document.querySelectorAll('form').forEach(form => {
+                        if (!form.querySelector('input[name="csrfmiddlewaretoken"]')) {
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'csrfmiddlewaretoken';
+                            input.value = token;
+                            form.appendChild(input);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

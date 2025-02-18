@@ -1,0 +1,88 @@
+{% if messages %}
+<div class="messages-container">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .messages-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        max-width: 400px;
+    }
+
+    .alert {
+        background: #1a1a1a;
+        border: none;
+        border-left: 4px solid;
+        color: #fff;
+        padding: 15px 20px;
+        margin-bottom: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        animation: slideIn 0.3s ease-out;
+    }
+
+    .alert-success {
+        border-left-color: #00b894;
+    }
+
+    .alert-info {
+        border-left-color: #6c5ce7;
+    }
+
+    .alert-warning {
+        border-left-color: #fdcb6e;
+    }
+
+    .alert-error, .alert-danger {
+        border-left-color: #d63031;
+    }
+
+    .btn-close {
+        color: #fff;
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+    }
+
+    .btn-close:hover {
+        opacity: 1;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .messages-container {
+            left: 20px;
+            right: 20px;
+            max-width: none;
+        }
+    }
+</style>
+
+<script>
+// Auto-dismiss messages after 5 seconds
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+        document.querySelectorAll('.alert').forEach(function(alert) {
+            var bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 5000);
+});
+</script>
+{% endif %} 

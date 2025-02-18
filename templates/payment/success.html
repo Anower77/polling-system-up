@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="success-container">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Payment Successful!</h2>
+        <p>Thank you for your purchase. Your subscription is now active.</p>
+        <div class="next-steps">
+            <h3>Next Steps</h3>
+            <ul>
+                <li>Explore your new premium features</li>
+                <li>Create custom quizzes</li>
+                <li>Access detailed analytics</li>
+            </ul>
+        </div>
+        <div class="action-buttons">
+            <a href="{% url 'quiz:create' %}" class="btn btn-primary">Create Quiz</a>
+            <a href="{% url 'polls:add' %}" class="btn btn-secondary">Create Poll</a>
+        </div>
+    </div>
+</div>
+
+<style>
+.success-container {
+    max-width: 600px;
+    margin: 60px auto;
+    text-align: center;
+    padding: 40px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.success-icon {
+    font-size: 64px;
+    color: #00b894;
+    margin-bottom: 20px;
+}
+
+.next-steps {
+    margin: 30px 0;
+    text-align: left;
+}
+
+.next-steps ul {
+    list-style: none;
+    padding: 0;
+}
+
+.next-steps li {
+    margin: 10px 0;
+    padding-left: 25px;
+    position: relative;
+}
+
+.next-steps li:before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: #6c5ce7;
+}
+
+.action-buttons {
+    margin-top: 30px;
+}
+
+.action-buttons .btn {
+    margin: 0 10px;
+}
+</style>
+{% endblock %} 

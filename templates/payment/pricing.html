@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center mb-5">Choose the plan that fits your needs.</h1>
+    
+    <div class="pricing-grid">
+        <!-- Starter Plan -->
+        <div class="pricing-card starter">
+            <div class="card-header">
+                <h2>Starter</h2>
+                <p class="subtitle">Basic polling & quiz features</p>
+                <div class="price">
+                    <span class="amount">Free</span>
+                </div>
+                <a href="{% url 'accounts:register' %}" class="btn-signup">Sign Up, It's Free</a>
+            </div>
+            
+            <div class="features-list">
+                <div class="feature-group">
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Up to 5 polls/month</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Up to 3 quizzes/month</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Basic analytics</span>
+                    </div>
+                </div>
+
+                <div class="feature-group">
+                    <h3>Key Features</h3>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Basic poll creation</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Simple quiz builder</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Vote tracking</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Basic results</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Business Plan -->
+        <div class="pricing-card business featured">
+            <div class="card-header">
+                <h2>Business</h2>
+                <p class="subtitle">Advanced features & analytics</p>
+                <div class="price">
+                    <span class="amount">৳1250</span>
+                    <span class="period">/month</span>
+                </div>
+                <a href="{% url 'payment:checkout' 'business' %}" class="btn-signup">Start Free 14-Day Trial</a>
+            </div>
+            
+            <div class="features-list">
+                <div class="feature-group">
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Unlimited polls</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Unlimited quizzes</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Advanced analytics</span>
+                    </div>
+                </div>
+
+                <div class="feature-group">
+                    <h3>Everything in Starter, plus:</h3>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Custom branding</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Engagement insights</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Export results</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Priority support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enterprise Plan -->
+        <div class="pricing-card enterprise">
+            <div class="card-header">
+                <h2>Enterprise</h2>
+                <p class="subtitle">Advanced security & customization</p>
+                <div class="price">
+                    <span class="amount">Let's Talk</span>
+                </div>
+                <a href="{% url 'payment:contact_sales' %}" class="btn-signup">Contact Sales</a>
+            </div>
+            
+            <div class="features-list">
+                <div class="feature-group">
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Unlimited everything</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Custom solutions</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Dedicated support</span>
+                    </div>
+                </div>
+
+                <div class="feature-group">
+                    <h3>Everything in Business, plus:</h3>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>SSO (SAML) and SCIM</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Advanced privacy controls</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>Custom retention policies</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-check"></i>
+                        <span>API access</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.container {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #2d3436;
+    margin-bottom: 50px;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 0 auto;
+}
+
+.pricing-card {
+    background: #fff;
+    border-radius: 15px;
+    padding: 30px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+}
+
+.pricing-card.featured {
+    border: 2px solid #6c5ce7;
+    position: relative;
+}
+
+.card-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.card-header h2 {
+    font-size: 24px;
+    color: #2d3436;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #636e72;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.price {
+    margin: 20px 0;
+}
+
+.amount {
+    font-size: 32px;
+    font-weight: bold;
+    color: #6c5ce7;
+}
+
+.period {
+    color: #636e72;
+    font-size: 16px;
+}
+
+.btn-signup {
+    display: inline-block;
+    padding: 12px 30px;
+    background: #6c5ce7;
+    color: white;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-signup:hover {
+    background: #5b4bc4;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108,92,231,0.4);
+}
+
+.features-list {
+    margin-top: 30px;
+}
+
+.feature-group {
+    margin-bottom: 25px;
+}
+
+.feature-group h3 {
+    font-size: 14px;
+    color: #636e72;
+    margin-bottom: 15px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.feature-item i {
+    color: #00b894;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.feature-item span {
+    color: #2d3436;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+</style>
+{% endblock %} 

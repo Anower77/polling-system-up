@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Quiz</title>
+</head>
+<body>
+    <h1>Create a New Quiz</h1>
+    <form id="quiz-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea><br><br>
+        <button type="button" onclick="createQuiz()">Create Quiz</button>
+    </form>
+
+    <script>
+        function createQuiz() {
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+
+            fetch('/api/quizzes/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ title, description }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Quiz created successfully!');
+                // Optionally, redirect to another page or clear the form
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

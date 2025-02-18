@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">{{ poll.text }}</h2>
+                    <p class="text-center text-muted mb-4">Total votes: {{ total_votes }}</p>
+
+                    {% if not user.is_authenticated %}
+                        <p>Please <a href="{% url 'accounts:login' %}">login</a> to participate.</p>
+                    {% endif %}
+
+                    {% for choice in choices_with_stats %}
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>{{ choice.choice.choice_text }}</span>
+                            <span>{{ choice.votes }} vote{{ choice.votes|pluralize }} ({{ choice.percentage }}%)</span>
+                        </div>
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ choice.percentage }}%"
+                                 aria-valuenow="{{ choice.percentage }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                                {{ choice.percentage }}%
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'polls:list' %}" class="btn btn-primary">
+                            <i class="fas fa-list me-2"></i>Back to Polls
+                        </a>
+                        {% if user == poll.owner %}
+                        <a href="{% url 'polls:end_poll' poll.id %}" class="btn btn-danger ms-2">
+                            <i class="fas fa-stop-circle me-2"></i>End Poll
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
