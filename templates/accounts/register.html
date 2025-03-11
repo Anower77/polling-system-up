@@ -47,12 +47,29 @@
                         </div>
                     </div>
                     
-                    <div class="d-grid mt-4">
-                        <button type="submit" class="btn btn-primary">
+                    <div class="d-grid mt-2">
+                        <button type="submit" class="btn btn-primary mb-2">
                             <i class="fas fa-user-plus me-2"></i>Register
                         </button>
                     </div>
                 </form>
+
+                <div class="demo-login mt-3">
+                    <form method="post" action="{% url 'accounts:login' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="username" value="demo12">
+                        <input type="hidden" name="password" value="demO500@@">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-user-circle me-2"></i>Demo Login
+                        </button>
+                    </form>
+                </div>
+
+                <div class="demo-info alert alert-info mt-3">
+                    <h6 class="text-center">Demo Credentials</h6>
+                    <p class="mb-1"><small>Username: demo12</small></p>
+                    <p class="mb-0"><small>Password: demO500@@</small></p>
+                </div>
                 
                 <div class="text-center mt-4">
                     <p class="mb-0">Already have an account? 
@@ -63,4 +80,4 @@
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}

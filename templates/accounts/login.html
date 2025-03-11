@@ -7,7 +7,7 @@
         
         {% if messages %}
         <div class="messages">
-            {% for message in messages %}
+            {% for message in messages %} 
             <div class="alert alert-{{ message.tags }}">
                 {{ message }}
             </div>
@@ -27,6 +27,23 @@
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
         </form>
+
+        <div class="demo-login mt-3">
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="username" value="demo12">
+                <input type="hidden" name="password" value="demO500@@">
+                <button type="submit" class="btn btn-success w-100">
+                    <i class="fas fa-user-circle me-2"></i>Demo Login
+                </button>
+            </form>
+        </div>
+
+        <div class="demo-info alert alert-info mt-3">
+            <h6 class="text-center">Demo Credentials</h6>
+            <p class="mb-1"><small>Username: demo12</small></p>
+            <p class="mb-0"><small>Password: demO500@@</small></p>
+        </div>
         
         <div class="auth-links">
             <p>Don't have an account? <a href="{% url 'accounts:register' %}">Register here</a></p>
@@ -102,5 +119,17 @@
         background: #00b894;
         color: #fff;
     }
+
+    .demo-info {
+        background: #74b9ff;
+        color: #2d3436;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 15px;
+    }
+
+    .demo-login {
+        margin: 15px 0;
+    }
 </style>
-{% endblock %} 
+{% endblock %}
