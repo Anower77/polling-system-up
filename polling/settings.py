@@ -86,18 +86,21 @@ ASGI_APPLICATION = 'polling.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME', default='polling_db'),
+        'NAME': env('DB_NAME'),
         'USER': env('DB_USER'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('DB_HOST'),
         'PORT': env('DB_PORT'),
-        'OPTIONS': {
-            'sslmode': 'require'
-        }
     }
 }
 
-# For production, use DATABASE_URL
+# Only require SSL in production
+if not DEBUG:
+    DATABASES['default']['OPTIONS'] = {
+        'sslmode': 'require'
+    }
+
+# OR if using DATABASE_URL in production:
 if not DEBUG and env('DATABASE_URL', default=None):
     DATABASES['default'] = dj_database_url.config(
         default=env('DATABASE_URL'),
@@ -105,6 +108,7 @@ if not DEBUG and env('DATABASE_URL', default=None):
         conn_health_checks=True,
         ssl_require=True
     )
+
 
 
 # Password validation
