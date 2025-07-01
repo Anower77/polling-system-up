@@ -317,10 +317,6 @@ def poll_vote(request, poll_id):
                 choice=choice
             )
 
-            # Update choice votes count
-            choice.votes = F('votes') + 1
-            choice.save()
-
             messages.success(
                 request,
                 "Your vote has been recorded!",
@@ -438,10 +434,6 @@ def vote(request, poll_id):
             poll=poll,
             choice=selected_choice
         )
-
-        # Update choice votes count
-        selected_choice.votes = F('votes') + 1
-        selected_choice.save()
 
         messages.success(request, "Your vote has been recorded!")
         return redirect('polls:detail', poll_id=poll_id)
