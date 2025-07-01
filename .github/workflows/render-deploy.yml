@@ -3,11 +3,35 @@ name: Django CI/CD Deploy to Render
 on:
   push:
     branches:
-      - main  # or 'production' if that’s your deploy branch
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_DB: polling_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_NAME: polling_test
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: localhost
+      DB_PORT: 5432
+      SECRET_KEY: test-secret
+      DEBUG: False
 
     steps:
     - name: Checkout Code
@@ -23,15 +47,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Run Migrations
+      run: python manage.py migrate
+
     - name: Run Tests
-      run: |
-        python manage.py test
+      run: python manage.py test
 
     - name: Deploy to Render
+      if: success()
       env:
         RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
       run: |
         curl -X POST "https://api.render.com/deploy/srv-c1234567abcd12345678?key=$RENDER_API_KEY"
-
-
-  # ZPV9-V8KV-9OMH-P694
