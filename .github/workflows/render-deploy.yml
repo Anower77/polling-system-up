@@ -25,13 +25,14 @@ jobs:
           --health-retries 5
 
     env:
-      DB_NAME: DB_NAME
-      DB_USER: DB_USER
-      DB_PASSWORD: DB_PASSWORD
-      DB_HOST: DB_HOST
-      DB_PORT: DB_PORT
-      DEBUG: DEBUG
-      SECRET_KEY: SECRET_KEY
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      DEBUG: ${{ secrets.DEBUG }} 
+
 
     steps:
     - name: Checkout Code
