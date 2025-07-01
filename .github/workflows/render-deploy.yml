@@ -30,8 +30,8 @@ jobs:
       DB_PASSWORD: postgres
       DB_HOST: localhost
       DB_PORT: 5432
+      DEBUG: true
       SECRET_KEY: test-secret
-      DEBUG: False
 
     steps:
     - name: Checkout Code

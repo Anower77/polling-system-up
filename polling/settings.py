@@ -98,13 +98,14 @@ DATABASES = {
 }
 
 # For production, use DATABASE_URL
-if not DEBUG:
+if not DEBUG and env('DATABASE_URL', default=None):
     DATABASES['default'] = dj_database_url.config(
         default=env('DATABASE_URL'),
         conn_max_age=600,
         conn_health_checks=True,
         ssl_require=True
     )
+
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
