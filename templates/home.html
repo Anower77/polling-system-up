@@ -144,6 +144,230 @@
         </div>
     </div>
 
+    <!-- Why Choose Our Platform Section -->
+    <section class="py-5">
+        <div class="container text-center">
+            <h2 class="display-4 mb-4">Why Choose Our Platform?</h2>
+            <div class="row justify-content-center gap-4">
+                <div class="col-md-3">
+                    <div class="card p-4">
+                        <div class="feature-icon"><i class="fas fa-vote-yea"></i></div>
+                        <h5 class="card-title">Instant Polling</h5>
+                        <p class="text-muted">Create real-time polls with live results and analytics.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-4">
+                        <div class="feature-icon"><i class="fas fa-lock"></i></div>
+                        <h5 class="card-title">Secure & Private</h5>
+                        <p class="text-muted">Your polls are protected with top-level security.</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-4">
+                        <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+                        <h5 class="card-title">Rich Analytics</h5>
+                        <p class="text-muted">Gain insights with beautiful charts and exportable data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- Get Started Section -->
+    <section class="py-5 text-center">
+        <div class="container">
+            <h2 class="display-4 mb-3">Ready to engage your audience?</h2>
+            <p class="text-muted mb-4">Create interactive polls or quizzes in just a few clicks!</p>
+            {% if not user.is_authenticated %}
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket"></i> Get Started for Free
+                </a>
+            {% else %}
+                <a href="{% url 'polls:add' %}" class="btn btn-success btn-lg">
+                    <i class="fas fa-plus-circle"></i> Create a New Poll
+                </a>
+            {% endif %}
+        </div>
+    </section>
+    
+
+   
+  
+    <!-- Why Choose Us Section -->
+<section class="why-choose-us-section mt-5">
+    <h2 class="text-center mb-4 text-white">Why Choose Our Platform?</h2>
+    <div class="row text-white">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <i class="fas fa-bolt fa-2x mb-3 text-warning"></i>
+                <h5>Fast & Responsive</h5>
+                <p>Real-time results and fast loading pages enhance your experience.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <i class="fas fa-shield-alt fa-2x mb-3 text-info"></i>
+                <h5>Secure</h5>
+                <p>Your data and responses are encrypted and safe.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <i class="fas fa-magic fa-2x mb-3 text-primary"></i>
+                <h5>User Friendly</h5>
+                <p>Simple, clean interface with intuitive navigation.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <i class="fas fa-chart-pie fa-2x mb-3 text-success"></i>
+                <h5>Analytics</h5>
+                <p>Detailed insights to help you analyze trends and results.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <i class="fas fa-users fa-2x mb-3 text-danger"></i>
+                <h5>Community</h5>
+                <p>Join a vibrant and active user base contributing polls and quizzes.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <i class="fas fa-tools fa-2x mb-3 text-secondary"></i>
+                <h5>Customizable</h5>
+                <p>Create polls and quizzes with flexible options and settings.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Testimonials Section -->
+<section class="testimonials-section mt-5 text-white">
+    <h2 class="text-center mb-4">What Our Users Say</h2>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <p>"This platform has completely changed how I interact with my community!"</p>
+                <strong>- Ayesha R., Educator</strong>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <p>"Simple, clean, and effective. I love the real-time results."</p>
+                <strong>- Kamal H., Marketer</strong>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100">
+                <p>"The quiz feature helped my students learn in a fun way!"</p>
+                <strong>- Dr. Niloy M., Professor</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Pricing Plans Section -->
+<section class="pricing-section mt-5 text-white">
+    <h2 class="text-center mb-4">Pricing Plans</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100 text-center">
+                <h3 class="text-success">Free</h3>
+                <h4>$0/month</h4>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>✔ Unlimited Voting</li>
+                    <li>✔ Create Polls & Quizzes</li>
+                    <li>✔ Community Access</li>
+                    <li>❌ Priority Support</li>
+                </ul>
+                <button class="btn btn-outline-success">Start Free</button>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark p-4 h-100 text-center border border-warning">
+                <h3 class="text-warning">Pro</h3>
+                <h4>$9.99/month</h4>
+                <ul class="list-unstyled mt-3 mb-4">
+                    <li>✔ All Free Features</li>
+                    <li>✔ Advanced Analytics</li>
+                    <li>✔ Custom Branding</li>
+                    <li>✔ Priority Support</li>
+                </ul>
+                <button class="btn btn-warning">Upgrade</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Newsletter Subscription -->
+<section class="newsletter-section mt-5 text-white">
+    <div class="text-center mb-4">
+        <h2>Stay Updated!</h2>
+        <p>Subscribe to receive updates on new features and events.</p>
+    </div>
+    <form class="d-flex justify-content-center">
+        <input type="email" class="form-control w-50 me-2" placeholder="Enter your email" required>
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+    </form>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section mt-5 text-white">
+    <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+    <div class="accordion" id="faqAccordion">
+        <div class="accordion-item bg-dark text-white">
+            <h2 class="accordion-header" id="faqOne">
+                <button class="accordion-button bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                    How do I create a poll?
+                </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Simply register and click on “New Poll” from your dashboard.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item bg-dark text-white">
+            <h2 class="accordion-header" id="faqTwo">
+                <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                    Can I vote without an account?
+                </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Some polls allow guest voting, depending on the creator's settings.
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item bg-dark text-white">
+            <h2 class="accordion-header" id="faqThree">
+                <button class="accordion-button collapsed bg-dark text-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                    How do I view poll results?
+                </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body">
+                    Go to the poll detail page to view real-time results and analytics.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
     <!-- Recent Activity Section -->
     {% if recent_polls or recent_quizzes %}
     <div class="recent-activity">
@@ -276,6 +500,17 @@
         margin: 0 auto;
         padding: 40px 20px;
     }
+
+    .feature-icon {
+    width: 60px;
+    height: 60px;
+    background: #f1f1f1;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 10px;
+}
 
     .hero-section {
         text-align: center;
